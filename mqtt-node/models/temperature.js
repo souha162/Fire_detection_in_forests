@@ -4,6 +4,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var temperatureSchema = new Schema({
+    location: String,
     sensor: String,
     date: Date,
     temperatureValue : String

@@ -28,8 +28,8 @@ class _FlamePageState extends State<FlamePage> {
   int max1=0;
   int min1=0;
 
-  String debutdate="2022-01-01";
-  String findate="2022-01-06";
+  String debutdate="2022-01-07";
+  String findate="2022-01-08";
 
 int findMin(List<int> numbers) {
   return numbers.reduce(min);
@@ -88,7 +88,7 @@ int findMax(List<int> numbers) {
 
   Future<List<double>> fetchPost({required String debut, required String fin}) async {
     final response = await http.get(
-        'http://20.87.48.193:3000/api/sensors/flame?startDate=$debut&endDate=$fin');
+        'https://www.projetcot.me/api/sensors/flame?startDate=$debut&endDate=$fin');
 
     if (response.statusCode == 200) {
       // If the call to the server was successful, parse the JSON
@@ -117,7 +117,7 @@ int findMax(List<int> numbers) {
     return MaterialApp(
       home: new Scaffold(
         appBar: AppBar(
-          title: Text("Flame Dashboard"),
+          title: Text("Fire Dashboard"),
           backgroundColor: Color.fromARGB(255, 12, 142, 218),
           elevation: 0.0,
           actions: [
@@ -161,7 +161,7 @@ int findMax(List<int> numbers) {
         
         body: Padding(
           padding: const EdgeInsets.all(10.0),
-          child: Column(
+          child: SingleChildScrollView(child: Column(
             children: [
               GestureDetector(
                 onTap: () {
@@ -245,12 +245,15 @@ int findMax(List<int> numbers) {
                       (BuildContext context, AsyncSnapshot<List> snapshot) {
                     if (snapshot.hasData) {
                       return  Card(
+                        shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+              ),
                 elevation: 8,
                 child: Padding(
                   padding: const EdgeInsets.all(20.0),
                   child: Column(
                     children: [
-                      Text("flame graphe"),
+                      Text("Fire chart"),
                       SizedBox(
                         height: 25.0,
                       ),
@@ -275,8 +278,10 @@ int findMax(List<int> numbers) {
               );
          
                       
+                    }else{
+                      return CircularProgressIndicator();
                     }
-                    return Text('');
+                    
                   }):CircularProgressIndicator(),
 
                 Card(
@@ -329,7 +334,7 @@ int findMax(List<int> numbers) {
             ],
           ),
         ),
-      ),
+      ),)
     );
   }
 

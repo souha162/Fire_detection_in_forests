@@ -1,6 +1,6 @@
 var mqtt = require('mqtt')
-var mqtt_host = '192.168.137.144'
-var mqtt_port = '1883'
+var mqtt_host = 'proxy16.rt3.io'
+var mqtt_port = '33893'
 var mqtt_clientId = `node_server`
 
 var connectUrl = `mqtt://${mqtt_host}:${mqtt_port}`

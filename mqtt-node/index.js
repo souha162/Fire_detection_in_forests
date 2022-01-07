@@ -36,10 +36,9 @@ app.use(express.json())
 app.use('/api/sensors/',sensorsRouter)   
 app.use('/api/users/',usersRouter)   
 app.use(cors())
-
-app.get('/',(req,res)=>{
-    res.send('hello world')
-})
+app.get('/',(req,res) =>{
+	res.sendFile(__dirname+'/index.html');
+});
 
 ///////////////////////
 
@@ -70,8 +69,8 @@ db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 var temperatures = []
 var humidities = []
 var flames = []
-function addTemperatureMesure(sensorName, date, temp) {
-    tempdetail = {sensor: sensorName,date: date,temperatureValue : temp}
+function addTemperatureMesure(loc,sensorName, date, temp) {
+    tempdetail = {location:loc,sensor: sensorName,date: date,temperatureValue : temp}
     var temperatureMesure = new temperatureModel(tempdetail);
          
     temperatureMesure.save(function (err) {
@@ -84,8 +83,8 @@ function addTemperatureMesure(sensorName, date, temp) {
     }  );
   }
 
-function addHumidityMesure(sensorName, date, hum) {
-    humdetail = {sensor: sensorName,date: date,humidityValue : hum}
+function addHumidityMesure(loc,sensorName, date, hum) {
+    humdetail = {location:loc,sensor: sensorName,date: date,humidityValue : hum}
     var humidityMesure = new humidityModel(humdetail);
          
     humidityMesure.save(function (err) {
@@ -98,8 +97,8 @@ function addHumidityMesure(sensorName, date, hum) {
     }  );
   }
 
-function addFlameMesure(sensorName, date, flame) {
-    flamedetail = {sensor: sensorName,date: date,flameValue : flame}
+function addFlameMesure(loc,sensorName, date, flame) {
+    flamedetail = {location:loc,sensor: sensorName,date: date,flameValue : flame}
     var FlameMesure = new flameModel(flamedetail);
          
     FlameMesure.save(function (err) {
@@ -120,18 +119,21 @@ client.on('message', (topic, payload) => {
     switch (topic) {
         case temperature_topic:
             addTemperatureMesure(
+                JSON.parse(payload.toString())['location'],
                 JSON.parse(payload.toString())['sensor'], 
                 date_ob, 
                 JSON.parse(payload.toString())['temp'])
         break;
         case humidity_topic:
             addHumidityMesure(
+                JSON.parse(payload.toString())['location'],
                 JSON.parse(payload.toString())['sensor'], 
                 date_ob, 
                 JSON.parse(payload.toString())['hum'])
         break;
         case flame_topic:
             addFlameMesure(
+                JSON.parse(payload.toString())['location'],
                 JSON.parse(payload.toString())['sensor'], 
                 date_ob, 
                 JSON.parse(payload.toString())['fla'])

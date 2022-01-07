@@ -28,8 +28,8 @@ class _MyHomePgeState extends State<MyHomePge> {
   int max1=0;
   int min1=0;
 
-  String debutdate="2022-01-01";
-  String findate="2022-01-06";
+  String debutdate="2022-01-07";
+  String findate="2022-01-08";
 
 int findMin(List<int> numbers) {
   return numbers.reduce(min);
@@ -88,7 +88,7 @@ int findMax(List<int> numbers) {
 
   Future<List<double>> fetchPost({required String debut, required String fin}) async {
     final response = await http.get(
-        'http://20.87.48.193:3000/api/sensors/temperature?startDate=$debut&endDate=$fin');
+        'https://www.projetcot.me/api/sensors/temperature?startDate=$debut&endDate=$fin');
 
     if (response.statusCode == 200) {
       // If the call to the server was successful, parse the JSON
@@ -157,7 +157,7 @@ int findMax(List<int> numbers) {
         ),
         body: Padding(
           padding: const EdgeInsets.all(10.0),
-          child: Column(
+          child: SingleChildScrollView(child: Column(
             children: [
               GestureDetector(
                 onTap: () {
@@ -172,7 +172,7 @@ int findMax(List<int> numbers) {
                           
                           borderRadius: BorderRadius.all(Radius.circular(20))
                             ),
-                    child: Center(child: Text("choose date "))),
+                    child: Center(child: Text("choose begin date "))),
               ),
               Text(
                   "${selectedDate.day}/${selectedDate.month}/${selectedDate.year}"),
@@ -190,7 +190,7 @@ int findMax(List<int> numbers) {
                           
                           borderRadius: BorderRadius.all(Radius.circular(20))
                             ),
-                    child: Center(child: Text("choose date "))),
+                    child: Center(child: Text("choose final date "))),
               ),
               Text(
                   "${selectedDate1.day}/${selectedDate1.month}/${selectedDate1.year}"),
@@ -244,12 +244,15 @@ int findMax(List<int> numbers) {
                       (BuildContext context, AsyncSnapshot<List> snapshot) {
                     if (snapshot.hasData) {
                       return  Card(
+                        shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(50),
+              ),
                 elevation: 8,
                 child: Padding(
                   padding: const EdgeInsets.all(20.0),
                   child: Column(
                     children: [
-                      Text("Temperture graphe"),
+                      Text("Temperture chart"),
                       SizedBox(
                         height: 25.0,
                       ),
@@ -274,6 +277,8 @@ int findMax(List<int> numbers) {
               );
          
                       
+                    }else{
+                      CircularProgressIndicator();
                     }
                     return Text('');
                   }):CircularProgressIndicator(),
@@ -328,7 +333,7 @@ int findMax(List<int> numbers) {
             ],
           ),
         ),
-      ),
+      ),)
     );
   }
 

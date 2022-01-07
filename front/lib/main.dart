@@ -20,6 +20,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Forest app',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -36,7 +37,7 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: Colors.white,
         canvasColor: Colors.transparent,
       ),
-      home: WelcomePage(),
+      home: SplashScreen(),
       routes: <String, WidgetBuilder>{
         '/signuppage': (BuildContext context) => const SignUp(),
          '/loginpage':(BuildContext context)=>SignInScreen(),

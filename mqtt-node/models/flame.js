@@ -4,6 +4,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var flameSchema = new Schema({
+    location: String,
     sensor: String,
     date: Date,
     flameValue : Boolean

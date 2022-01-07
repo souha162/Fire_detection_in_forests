@@ -4,6 +4,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var humiditySchema = new Schema({
+    location: String,
     sensor: String,
     date: Date,
     humidityValue : String

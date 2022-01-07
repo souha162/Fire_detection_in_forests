@@ -28,8 +28,8 @@ class _HumidityPageState extends State<HumidityPage> {
   int max1=0;
   int min1=0;
 
-  String debutdate="2022-01-01";
-  String findate="2022-01-06";
+  String debutdate="2022-01-07";
+  String findate="2022-01-08";
 
 int findMin(List<int> numbers) {
   return numbers.reduce(min);
@@ -88,7 +88,7 @@ int findMax(List<int> numbers) {
 
   Future<List<double>> fetchPost({required String debut, required String fin}) async {
     final response = await http.get(
-        'http://20.87.48.193:3000/api/sensors/humidity?startDate=$debut&endDate=$fin');
+        'https://www.projetcot.me/api/sensors/humidity?startDate=$debut&endDate=$fin');
 
     if (response.statusCode == 200) {
       // If the call to the server was successful, parse the JSON
@@ -157,7 +157,7 @@ int findMax(List<int> numbers) {
         ),
         body: Padding(
           padding: const EdgeInsets.all(10.0),
-          child: Column(
+          child: SingleChildScrollView(child: Column(
             children: [
               GestureDetector(
                 onTap: () {
@@ -241,12 +241,15 @@ int findMax(List<int> numbers) {
                       (BuildContext context, AsyncSnapshot<List> snapshot) {
                     if (snapshot.hasData) {
                       return  Card(
+                        shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(50),
+              ),
                 elevation: 8,
                 child: Padding(
                   padding: const EdgeInsets.all(20.0),
                   child: Column(
                     children: [
-                      Text("Humidity graphe"),
+                      Text("Humidity chart"),
                       SizedBox(
                         height: 25.0,
                       ),
@@ -271,14 +274,16 @@ int findMax(List<int> numbers) {
               );
          
                       
+                    }else{
+                      return CircularProgressIndicator();
                     }
-                    return Text('');
+                 
                   }):CircularProgressIndicator(),
 
                 Card(
                   child: Container(
                     width:MediaQuery.of(context).size.width-10,
-                    height: 50,
+                    height: MediaQuery.of(context).size.width/5,
                     child: Row(children: [
                       Padding(
                         padding: const EdgeInsets.all(10.0),
@@ -302,7 +307,7 @@ int findMax(List<int> numbers) {
                         padding: const EdgeInsets.all(10.0),
                         child: Container(
                           width: MediaQuery.of(context).size.width/3,
-                          height: 50,
+                          height: MediaQuery.of(context).size.width/5,
                           decoration: BoxDecoration(
                             color: Color.fromARGB(255, 115, 239, 212),
                           
@@ -325,7 +330,7 @@ int findMax(List<int> numbers) {
             ],
           ),
         ),
-      ),
+      ),)
     );
   }
 

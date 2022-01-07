@@ -20,11 +20,26 @@ class _SignUpState extends State<SignUp> {
   String service = '';
   String phonenumber = '';
   String password = '';
+  String  password_confirmed= '';
   String erreur = '';
+
+  bool isPasswordCompliant(String password, [int minLength = 6]) {
+  if (password == null || password.isEmpty) {
+    return false;
+  }
+
+  bool hasUppercase = password.contains(new RegExp(r'[A-Z]'));
+  bool hasDigits = password.contains(new RegExp(r'[0-9]'));
+  bool hasLowercase = password.contains(new RegExp(r'[a-z]'));
+  bool hasSpecialCharacters = password.contains(new RegExp(r'[!@#$%^&*(),.?":{}|<>]'));
+  bool hasMinLength = password.length > minLength;
+
+  return hasDigits & hasUppercase & hasLowercase & hasSpecialCharacters & hasMinLength;
+}
 
   Future<http.Response> createUser(String email, String password,
       String username, String picUrl, String phonenum, String service) {
-    return http.post(Uri.parse('http://20.87.48.193:3000/api/users/register'),
+    return http.post(Uri.parse('https://www.projetcot.me/api/users//register'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
@@ -43,6 +58,7 @@ class _SignUpState extends State<SignUp> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
+        title: Text("SignUp Page"),
         backgroundColor: Colors.blue,
         elevation: 0.0,
       ),
@@ -79,6 +95,12 @@ class _SignUpState extends State<SignUp> {
                           username = val;
                         });
                       },
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter some text';
+                        }
+                        return null;
+                      },
                     ),
                     SizedBox(
                       height: 20.0,
@@ -99,6 +121,12 @@ class _SignUpState extends State<SignUp> {
                           phonenumber = val;
                         });
                       },
+                            validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter phone number';
+                    }
+                    return null;
+                  },
                     ),
                     SizedBox(
                       height: 20.0,
@@ -119,6 +147,12 @@ class _SignUpState extends State<SignUp> {
                           service = val;
                         });
                       },
+                   validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter your service';
+                    }
+                    return null;
+                  },
                     ),
                     SizedBox(
                       height: 20.0,
@@ -139,6 +173,12 @@ class _SignUpState extends State<SignUp> {
                           picUrl = val;
                         });
                       },
+                          validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter a valid URL';
+                  }
+                  return null;
+                },
                     ),
                     SizedBox(
                       height: 20.0,
@@ -159,6 +199,12 @@ class _SignUpState extends State<SignUp> {
                           email = val;
                         });
                       },
+                    validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter a valid email';
+                    }
+                    return null;
+                  },
                     ),
                     SizedBox(
                       height: 20.0,
@@ -180,18 +226,59 @@ class _SignUpState extends State<SignUp> {
                           password = val;
                         });
                       },
+                     validator: (value) {
+                    if (value == null || value.isEmpty||value.length<6||isPasswordCompliant(value)==false) {
+                      return 'Please enter a valid password';
+                    }
+                    return null;
+                  },
                     ),
                     SizedBox(
                       height: 20.0,
                     ),
+                    TextFormField(
+                      decoration: InputDecoration(
+                        labelText: "Confirm Password ",
+                        fillColor: Colors.white,
+                        border: new OutlineInputBorder(
+                          borderRadius: new BorderRadius.circular(25.0),
+                          borderSide: new BorderSide(),
+                        ),
+                        //fillColor: Colors.green
+                      ),
+                      keyboardType: TextInputType.emailAddress,
+                      obscureText: true,
+                      onChanged: (val) {
+                        setState(() {
+                          password_confirmed = val;
+                        });
+                      },
+                      validator: (value) {
+                    if (value == null || value.isEmpty||value.length<6||isPasswordCompliant(value)==false||password!=password_confirmed) {
+                      return 'Please enter a valid password';
+                    }
+                    return null;
+                  },
+                    ),
                     SizedBox(
-                      height: 20.0,
+                      height: 40.0,
                     ),
                     RaisedButton(
                       onPressed: () {
-                        createUser(email, password, username, picUrl,
+                         if (_formkey.currentState!.validate()) {
+
+                           createUser(email, password, username, picUrl,
                             phonenumber, service);
                         Navigator.of(context).pushReplacementNamed('/accueil');
+                        // you'd often call a server or save the information in a database.
+                      
+                    }else{
+                         ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('Something wrong')),
+                      );
+                        
+                    }
+                   
                       },
                       color: Palette.orange,
                       child: Text(

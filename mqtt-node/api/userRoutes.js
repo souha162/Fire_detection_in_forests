@@ -21,7 +21,6 @@ router.post('/register',(req,res)=>{
             if(user){
                 res.status(409).json({error:'Email already exist'})
             }else{
-                console.log(userExists(req.body.email))
                 const newUser = new User(req.body)
                 newUser.save().then(user=>{
                     res.status(201).json(user)

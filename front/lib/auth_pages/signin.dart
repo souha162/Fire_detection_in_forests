@@ -20,13 +20,17 @@ class _SignInScreenState extends State<SignInScreen> {
 
   Future<http.Response> createUser(String email, String password) {
     return http.post(
-      Uri.parse('http://20.87.48.193:3000/api/users/login'),
+      Uri.parse('https://www.projetcot.me/api/users/login'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
       body: jsonEncode(
           <String, String>{'email': this.email, 'password': this.password}),
-    );
+    ).catchError((onError){
+       ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('Unauthorized Login')),
+                      );
+    });
   }
 
   @override
@@ -34,7 +38,8 @@ class _SignInScreenState extends State<SignInScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Colors.green,
+        title: Text("Login Page "),
+        backgroundColor: Colors.blue,
         elevation: 0.0,
       ),
       body: Container(
@@ -46,6 +51,10 @@ class _SignInScreenState extends State<SignInScreen> {
               child: SingleChildScrollView(
                 child: Column(
                   children: <Widget>[
+                    Container(
+                      child: Image.network("http://fath88.files.wordpress.com/2014/01/welcome.gif"),
+                    ),
+                    SizedBox(height: 40.0,),
                     TextFormField(
                       decoration: InputDecoration(
                         labelText: "Enter Email",
@@ -70,6 +79,12 @@ class _SignInScreenState extends State<SignInScreen> {
                           email = val;
                         });
                       },
+                                validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter a valid email';
+                      }
+                      return null;
+                    },
                     ),
                     SizedBox(
                       height: 20.0,
@@ -91,6 +106,12 @@ class _SignInScreenState extends State<SignInScreen> {
                           password = val;
                         });
                       },
+                             validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter a password';
+                  }
+                  return null;
+                },
                     ),
                     SizedBox(
                       height: 20.0,
@@ -126,8 +147,17 @@ class _SignInScreenState extends State<SignInScreen> {
                     ),
                     RaisedButton(
                       onPressed: () {
-                        createUser(email, password);
-                        Navigator.of(context).pushReplacementNamed('/accueil');
+                         if (_formkey.currentState!.validate()) {
+
+                           createUser(email, password);
+                          Navigator.of(context).pushReplacementNamed('/accueil');
+                        // you'd often call a server or save the information in a database.
+                      
+                    }
+                    ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('Something wrong')),
+                      );
+                       
                       },
                       color: Palette.orange,
                       child: Text(

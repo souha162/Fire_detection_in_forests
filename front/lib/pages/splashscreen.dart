@@ -18,7 +18,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     Timer(
-        Duration(seconds: 7),
+        Duration(seconds: 4),
         () => Navigator.pushReplacement(
             context,
             PageTransition(
@@ -39,6 +39,7 @@ class _SplashScreenState extends State<SplashScreen> {
               child: Column(
                 children: <Widget>[
                   _getHeader(),
+                  SizedBox(height: 50.0,),
                   _getImage(),
                 ],
               ),
@@ -66,7 +67,7 @@ _getImage() {
                 ),
               );
             },
-            duration: Duration(seconds: 4),
+            duration: Duration(seconds: 3),
           ),
         )
       ],
