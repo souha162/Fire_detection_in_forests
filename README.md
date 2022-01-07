@@ -1,4 +1,4 @@
-# Fire_detection_in_forests-
+# Fire_detection_in_forests
 Projet Cloud Of Things
 
 This project is a starting point for a Flutter application
