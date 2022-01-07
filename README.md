@@ -1,17 +1,30 @@
-# Fire_detection_in_forests-
-Projet Cloud Of Things
+# **Introduction**
+--
+Fire detection in forests is a mobile application dedicated to fire fighters. The application displays temperature and humidity values between two different dates as well as the presence of fire or not. These values will be measured by sensors.
+# **Architecture**
+![image](https://user-images.githubusercontent.com/77336437/148599587-b2852642-3eec-4983-bea4-4fd0863226f7.png)
+# **Technology Choice** 
+-   Frontend Part : Flutter 
+- Backend Part : MongoDB Atlas - Mosquitto MQTT broker
+- Middleware Part : NodeJS
+- IOT Part: Raspberry Pi and Temperature and Humidity sensors
 
-This project is a starting point for a Flutter application
 
-*Getting started: 
+# **Middleware**
+In the Azure virtual machine we have the mqtt broker mosquitto and the node js server.
 
-  -Install flutter on your machine 
-  
-*Features : 
-  -Email and password login 
-  
-  -Registration with email, password, username, phone numer
-  
-  -stores user information on successful registration 
-  
-  -fetches down user information on successful login 
+To make sure that our MQTT Broker is running, all you have to do is verify with this command:  
+```python
+sudo systemctl status moquitto
+```
+# **Certification**
+
+We were able to activate HTTPS by using Certbot from Let's Encrypt and then we were able to check the domain and make sure that our site is secure from different connections 
+We were able to deploy our NodeJS middleware on an Azure virtual machine using a Linux OS (ubuntu 20.04) and accessible via the URL projetcot.me.
+This server is secured by a Wildard SSL certificate associated with an rsa 4096 key, issued by Let's Encrypt.
+
+
+```python
+./certbot-auto certonly --manual -d *.$projetcot.me -d $projetcot.me --agree-tos --manual-public-ip-logging-ok --preferred-challenges dns-01 --server https://acme-v02.api.letsencrypt.org/directory --register-unsafely-without-email --rsa-key-size 4096
+```
+# **Results**
