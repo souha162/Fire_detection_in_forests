@@ -2,7 +2,7 @@
 --
 Fire detection in forests is a mobile application dedicated to fire fighters. The application displays temperature and humidity values between two different dates as well as the presence of fire or not. These values will be measured by sensors.
 # **Architecture**
-![Alt text](/C:/Users/nemri souha/Documents/GitHub/Detection-of-fires-in-forests/Capture.PNG)
+
 # **Technology Choice** 
 -   Frontend Part : Flutter 
 - Backend Part : MongoDB Atlas - Mosquitto MQTT broker
